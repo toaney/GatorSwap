@@ -1,0 +1,32 @@
+<% include ../partials/header %> 
+
+     <header class="jumbotron">
+         <div class="container">
+             <h1>Welcome To GatorSwap!</h1>
+             <p>SFSU-Fulda Software Engineering Project CSC 648-848, Fall 2018.  For Demonstration Only. </p>
+             <p>TEAM 06</p>
+             <p>
+                <a class="btn btn-primary btn-lg" href="/listings/new">Add New Listing</a>
+             </p>
+         </div>
+     </header>
+     
+     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        <% listings.forEach(function(listing){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <a href="/listings/<%= listing._id %>">
+                        <img src="<%= listing.image %>">
+                   <div class="caption">
+                       <h4><%= listing.name %></h4>
+                   </div>
+                   </a>
+                   <p>
+                       <a href="/listings/<%= listing._id %>" class="btn btn-primary">More Info</a>
+                   </p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+<% include ../partials/footer %>
