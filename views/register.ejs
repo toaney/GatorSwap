@@ -1,25 +1,233 @@
 <% include ./partials/header %>
-<div class="container">
-    <div class="row">
-        <h1 style="text-align: center">Sign Up</h1>
-        <div style="width: 30%; margin: 25px auto;">
-            <form action="/register" method="post">
-                <div class="form-group">
-                    <input class="form-control" type="text" name="username" placeholder="username">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="email" placeholder="email">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="password" name="password" placeholder="password">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
-                </div>
-            </form>
-            <a href="/listings">Go Back</a>
-        </div>
-    </div>
-</div>
-<% include ./partials/footer %>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="gatorswap/public/register.css" rel="stylesheet">
 
+<!------ Include the above in your HEAD tag ---------->
+<style>
+.capbox {
+  text-align: center;
+  background-color: #226eab;
+  border: ##226eab 0px solid;
+  border-width: 0px 12px 0px 0px;
+  display: inline-block;
+  *display: inline; zoom: 1; /* FOR IE7-8 */
+  padding: 8px 40px 8px 8px;
+}
+.capbox-inner {
+  font: bold 11px arial, sans-serif;
+  color: #000000;
+  background-color: #DBF3BA;
+  margin: 5px auto 0px auto;
+  padding: 3px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+#CaptchaDiv {
+  font: bold 17px verdana, arial, sans-serif;
+  font-style: italic;
+  color: ##226eab
+;
+  background-color: #FFFFFF;
+  padding: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+#CaptchaInput { margin: 1px 0px 1px 0px; width: 135px; }
+#map {
+  height: 100%;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+</style>
+<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+<style>
+#locationField, #controls {
+  position: relative;
+  width: 480px;
+}
+.label {
+  text-align: right;
+  font-weight: bold;
+  width: 100px;
+  color: #303030;
+}
+#address td {
+  font-size: 10pt;
+}
+.field {
+  width: 99%;
+}
+.slimField {
+  width: 80px;
+}
+.wideField {
+  width: 200px;
+}
+#locationField {
+  height: 20px;
+  margin-bottom: 2px;
+}
+#checkbox{
+  margin-left: auto;
+}
+</style>
+
+
+
+<div class="container">
+
+  <div class="row">
+    <h2 class= "text-center"> New Registration page <a href="/registration">648</a> </h2>
+
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+      <form name='registration' onsubmit="return checkform(this)" method="post" action='/register'>
+        <h3 class="text-center">Registration form</h3>
+        <p id="password_error" style="color:red;"></p>
+        <p id="email_error" style="color:red"></p>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-5 col-md-offset-3">
+          <div class="form-group">
+            <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address *" tabindex="4">
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+          <div class="form-group">
+            <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password *" tabindex="5">
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+          <div class="form-group">
+            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Confirm Password *" tabindex="6">
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+          <div class="form-group">
+            <input type="text" name="username" id="displayName" class="form-control input-lg" placeholder="Display Name *" tabindex="7">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+
+        <div class="capbox" align="center">
+
+
+          <div id="CaptchaDiv" align="center"></div>
+
+          <div class="capbox-inner"  align="center">
+            Type the above number:
+
+            <input type="hidden" id="txtCaptcha">
+            <input type="text" name="CaptchaInput" id="CaptchaInput" size="15"><br>
+          </div>
+        </div>
+        <div class="agreement" align = "center">
+          <div id="checkbox" class="col-xs-20 col-sm-20">
+            <div class="row">
+
+              <span class="button-checkbox">
+                <label class="checkbox"><input type="checkbox" class="btn btn-primary" data-dismiss="modal">I Agree to the
+                                                              <a href="/views/terms.html" >Terms and Conditions</a></label>
+              </span>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <button type="button" style="width:100px;height:45px;" onclick="ClearFields();">Clear</button>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7">
+              </div>
+            </div>
+          </div>
+
+
+<script type="text/javascript">
+function ClearFields() {
+     document.getElementById("email").value = "";
+     document.getElementById("password").value = "";
+     document.getElementById("password_confirmation").value = "";
+     document.getElementById("displayName").value = "";
+}
+//function to validate the form
+function checkform(theform)
+{
+  var why = "";
+  if(theform.CaptchaInput.value == ""){
+    why += "- Please Enter CAPTCHA Code.\n";
+  }
+  if(theform.CaptchaInput.value != ""){
+    if(ValidCaptcha(theform.CaptchaInput.value) == false){
+      why += "- The CAPTCHA Code Does Not Match.\n";
+    }
+  }
+  if(why != ""){
+    alert(why);
+    return false;
+  }
+    var email = document.getElementById('email').value
+         if(email.length>40)
+         {
+           document.getElementById('email_error').innerHTML = 'Email should be less than 40 characters'
+           return false
+         }
+  var password = document.forms['registration']['password'].value
+  var password2 = document.forms['registration']['password_confirmation'].value
+      var pattern = /[^a-z]/i
+      var isAlphaNumeric = false
+      for(var i=0; i < password.length; i++) {
+               if(!isNaN(parseInt(password[i]))) isAlphaNumeric = true
+          }
+      if(password !== password2 || !isAlphaNumeric)
+        {
+           document.getElementById('password_error').innerHTML = 'Passwords should match and should be Alpha Numeric'
+           return false
+         }
+         else if (password.length >40)
+         {
+             document.getElementById('password_error').innerHTML = 'Password should be less than 40 characters'
+             return false
+         }
+}
+//captch renewal
+var a = Math.ceil(Math.random() * 9)+ '';
+var b = Math.ceil(Math.random() * 9)+ '';
+var c = Math.ceil(Math.random() * 9)+ '';
+var d = Math.ceil(Math.random() * 9)+ '';
+var e = Math.ceil(Math.random() * 9)+ '';
+var code = a + b + c + d + e;
+document.getElementById("txtCaptcha").value = code;
+document.getElementById("CaptchaDiv").innerHTML = code;
+// Validate input against the generated number
+function ValidCaptcha(){
+  var str1 = removeSpaces(document.getElementById('txtCaptcha').value);
+  var str2 = removeSpaces(document.getElementById('CaptchaInput').value);
+  if (str1 == str2){
+    return true;
+  }else{
+    return false;
+  }
+}
+// Remove the spaces from the entered and generated code
+function removeSpaces(string){
+  return string.split(' ').join('');
+}
+</script>
+
+
+
+<% include ./partials/footer %>

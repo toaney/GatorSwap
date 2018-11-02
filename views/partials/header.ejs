@@ -5,21 +5,32 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="/stylesheets/main.css">
         <script src="https://code.jquery.com/jquery-git2.min.js"></script>
+        <script src ="/scripts/header.js"></script>
     </head>
     <body>
     <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">GatorSwap</a>
+                <a class="navbar-brand" href="/">GatorSwap by team 6 </a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                             <form action="/listings" method="GET" class="form-inline">
             		            <div class="form-group">
+            			            
             			            <input type="text" name="search" placeholder="try book..." class="form-control">
+            			            <select class="form-control" type="text" name="searchcategory" >
+                                      <option value="">category</option>
+                                      <%categories.forEach(function(category){ %>
+                                            <option value=<%= category.category %>><%= category.category %></option>
+                                      <% }); %>
+                                    </select>
+                    
             			            <input type="submit" value="Search" class="btn btn-primary btn-large">
             		            </div>
+            		            
+            		            
             	            </form>
                     <% if(!currentUser){ %>
                         

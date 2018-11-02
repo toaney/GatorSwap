@@ -1,13 +1,5 @@
 <% include ../partials/header %>
     <div class="row">
-        <!--<div class="col-md-3">-->
-        <!--    <p class="lead">YelpCamp</p>-->
-        <!--    <div class="list-group">-->
-        <!--        <li class="list-group-item active">Info 1</li>-->
-        <!--        <li class="list-group-item">Info 2</li>-->
-        <!--        <li class="list-group-item">Info 3</li>-->
-        <!--    </div>-->
-        <!--</div>-->
         <div class="col-md-6">
             <div class="thumbnail">
                 <img class="img-responsive" src="<%= listing.image %>">
@@ -23,18 +15,17 @@
                     <% } %>
                 </div>
             </div>
-            <div class="well">
-                <div class="text-right">
+            <div class="text-right">
                     <a class="btn btn-success" href="/listings/<%= listing._id %>/messages/new">Add New Message</a>
-                </div>
+            </div>
+            <div class="well">
+                <strong>messages</strong>
                 <hr>
                 <% listing.messages.forEach(function(message){ %>
                     <div class="row">
-                        <div class="col-md-12">
-                            <strong><%= message.author.username %></strong>
-                            <span class="pull-right">10 days ago</span>
-                       <div>
-                           <%= message.text %> 
+
+                        <div>
+                           <i><%= message.text %></i> - <%= message.author.username %>
 
                             <% if(currentUser && message.author.id.equals(currentUser._id)){ %>
                                 <form style="display: inline" class="pull-right" action="/listings/<%=listing._id%>/messages/<%=message._id%>?_method=DELETE" method="POST">
@@ -43,7 +34,6 @@
                                 </form>
                             <% } %> 
                        </div>
-                        </div>
                     </div>
                 <% }) %>
             </div>

@@ -5,7 +5,7 @@ module.exports = {
         if(req.isAuthenticated()){
             return next();
         }
-        req.flash("error", "You must be signed in to do that!");
+        req.flash("error", "Please sign in");
         res.redirect("/login");
     },
     checkUserListing: function(req, res, next){
@@ -14,29 +14,29 @@ module.exports = {
                if(listing.author.id.equals(req.user._id)){
                    next();
                } else {
-                   req.flash("error", "You don't have permission to do that!");
+                   req.flash("error", "permission denied!");
                    console.log("BADD!!!");
                    res.redirect("/listings/" + req.params.id);
                }
             });
         } else {
-            req.flash("error", "You need to be signed in to do that!");
+            req.flash("error", "Please sign in!");
             res.redirect("/login");
         }
     },
     checkUserMessage: function(req, res, next){
-        console.log("YOU MADE IT!");
+        console.log("ran chechUserMessage");
         if(req.isAuthenticated()){
             Message.findById(req.params.messageId, function(err, message){
                if(message.author.id.equals(req.user._id)){
                    next();
                } else {
-                   req.flash("error", "You don't have permission to do that!");
+                   req.flash("error", "permission denied");
                    res.redirect("/listings/" + req.params.id);
                }
             });
         } else {
-            req.flash("error", "You need to be signed in to do that!");
+            req.flash("error", "Please sign in");
             res.redirect("login");
         }
     }

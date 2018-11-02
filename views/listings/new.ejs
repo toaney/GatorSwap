@@ -16,11 +16,9 @@
                 <div class="form-group">
                     <select class="form-control" type="text" name="listing[category]" placeholder="category">
                       <option value="">category</option>
-                      <option value="books">books</option>
-                      <option value="electronics">electronics</option>
-                      <option value="vehicle">vehicle</option>
-                      <option value="service">service</option>
-                      <option value="other">other</option>
+                      <% categories.forEach(function(category){ %>
+                        <option value=<%= category.category %>><%= category.category %></option>
+                      <% }); %>
                     </select>
                 </div>
                 <div class="form-group">

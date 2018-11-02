@@ -6,11 +6,11 @@ var express     = require("express"),
     cookieParser = require("cookie-parser"),
     LocalStrategy = require("passport-local"),
     flash        = require("connect-flash"),
-    Listing  = require("./models/listing"),
+    Listing     = require("./models/listing"),
     Message     = require("./models/message"),
     User        = require("./models/user"),
-    session = require("express-session"),
-    //seedDB      = require("./seeds"),
+    Category    = require("./models/category"),
+    session     = require("express-session"),
     methodOverride = require("method-override");
     
 var serverPort = 3000; //nginx on AWS set to forward / to port 3000
@@ -25,17 +25,18 @@ var messageRoutes    = require("./routes/messages"),
 mongoose.connect("mongodb://team06:team06@ds131313.mlab.com:31313/gatorswapdb", {useMongoClient: true});
 //mongoose.connect("mongodb://teamsix:team06@ds131313.mlab.com:31313/gatorswapdb");
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}));//for forms
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
 app.use(cookieParser('secret'));
 
-// seedDB(); //seed the database
 
 // PASSPORT CONFIGURATION
+//HTTP is stateless; in order to associate a request to any other request, 
+//sessions is a way to store user data between HTTP requests.
 app.use(require("express-session")({
-    secret: "Once again Rusty wins cutest dog!",
+    secret: "Three may keep a secret, if two of them are dead.",
     resave: false,
     saveUninitialized: false
 }));
@@ -61,6 +62,15 @@ app.use("/listings/:id/messages", messageRoutes);
 
 // app.listen(process.env.PORT, process.env.IP, function(){
 //   console.log("The YelpCamp Server Has Started!");
+// });
+
+// Category.create({category: "electronics",}, function(err, category){
+//     if(err){
+//         console.log(err);
+//     } else {
+//         category.save();
+//         console.log("Created new category");
+//     }
 // });
 
 if (process.env.PORT != null) {

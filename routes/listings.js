@@ -1,6 +1,7 @@
 var express = require("express");
 var router  = express.Router();
 var Listing = require("../models/listing");
+var Category = require("../models/category");
 var middleware = require("../middleware");
 var request = require("request");
 
@@ -10,13 +11,15 @@ var storage = multer.diskStorage({
     callback(null, Date.now() + file.originalname);
   }
 });
+
 var imageFilter = function (req, file, cb) { //extension check (jpg... not pdf...)
     // accept image files only
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
-        return cb(new Error('Only image files are allowed!'), false);
+        return cb(new Error('jpg, jpeg, png, or gif format only'), false);
     }
     cb(null, true);
 };
+
 var upload = multer({ storage: storage, fileFilter: imageFilter})
 
 var cloudinary = require('cloudinary');
@@ -29,26 +32,41 @@ cloudinary.config({
 //INDEX - show all listings with fuzzy search
 router.get("/", function(req, res){
     var noMatch = null;
-    if(req.query.search) {
-        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        // Get all listings from DB
-        Listing.find({name: regex}, function(err, allListings){
+    if(req.query.search || req.query.searchcategory) {// non empty search
+        const regex = new RegExp(escapeRegex(req.query.searchcategory), 'gi');
+        const regexcategory = new RegExp(escapeRegex(req.query.searchcategory), 'gi');
+
+        Listing.find({$or:[ {name: regex}, {description: regex}, {category: regex},{category: regexcategory}]}, function(err, allListings){
            if(err){
                console.log(err);
            } else {
               if(allListings.length < 1) {
-                  noMatch = "No listings match that query, please try again.";
+                  noMatch = "No matching result, please try again.";
               }
-              res.render("listings/index",{listings:allListings, noMatch: noMatch});
+              Category.find({}, function(err, allCategories){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render("listings/index", {listings:allListings, noMatch: noMatch,categories:allCategories}); 
+                }
+              });
+            //   res.render("listings/index",{listings:allListings, noMatch: noMatch});
            }
         });
     } else {
-        // Get all listings from DB
+        // Get all listings from DB if search string empty
         Listing.find({}, function(err, allListings){
            if(err){
                console.log(err);
            } else {
-              res.render("listings/index",{listings:allListings, noMatch: noMatch});
+               Category.find({}, function(err, allCategories){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render("listings/index", {listings:allListings, noMatch: noMatch,categories:allCategories}); 
+                }
+               });
+            //   res.render("listings/index",{listings:allListings, noMatch: noMatch});
            }
         });
     }
@@ -57,6 +75,7 @@ router.get("/", function(req, res){
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
+
 //CREATE - add new listing to DB with uploading image function
 router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res) {
     // get data from form and add to listings array
@@ -66,7 +85,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
     // add author to listing
     req.body.listing.author = {
         id: req.user._id,
-        username: req.user.username
+        username: req.user.username,
     }
     Listing.create(req.body.listing, function(err, listing) {
         if (err) {
@@ -80,7 +99,15 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
 
 //NEW - show form to create new listing
 router.get("/new", middleware.isLoggedIn, function(req, res){
-   res.render("listings/new"); 
+    Category.find({}, function(err, allCategories){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("listings/new",{categories:allCategories}); 
+        }
+        
+    });
+   //res.render("listings/new"); 
 });
 
 // SHOW - shows more info about one listing
@@ -92,7 +119,14 @@ router.get("/:id", function(req, res){
         } else {
             console.log(foundListing)
             //render show template with that listing
-            res.render("listings/show", {listing: foundListing});
+            Category.find({}, function(err, allCategories){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render("listings/show", {listing: foundListing,categories:allCategories}); 
+                }
+            });
+            // res.render("listings/show", {listing: foundListing});
         }
     });
 });
@@ -105,7 +139,14 @@ router.get("/:id/edit", middleware.checkUserListing, function(req, res){
             console.log(err);
         } else {
             //render show template with that listing
-            res.render("listings/edit", {listing: foundListing});
+            Category.find({}, function(err, allCategories){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render("listings/edit", {listing: foundListing,categories:allCategories}); 
+                }
+            });
+            // res.render("listings/edit", {listing: foundListing});
         }
     });
 });
@@ -117,14 +158,14 @@ router.put("/:id", function(req, res){
             req.flash("error", err.message);
             res.redirect("back");
         } else {
-            req.flash("success","Successfully Updated!");
+            req.flash("success","your listing is updated");
             res.redirect("/listings/" + listing._id);
         }
     });
 });
 
 
-//middleware
+//middleware refactored
 // function isLoggedIn(req, res, next){
 //     if(req.isAuthenticated()){
 //         return next();

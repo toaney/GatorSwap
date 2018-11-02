@@ -3,6 +3,7 @@ var router  = express.Router({mergeParams: true});
 var Listing = require("../models/listing");
 var Message = require("../models/message");
 var middleware = require("../middleware");
+var Category = require("../models/category");
 
 //Messages New
 router.get("/new", middleware.isLoggedIn, function(req, res){
@@ -12,7 +13,14 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
         if(err){
             console.log(err);
         } else {
-             res.render("messages/new", {listing: listing});
+            Category.find({}, function(err, allCategories){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render("messages/new", {listing: listing,categories:allCategories});
+                }
+            });
+            //  res.render("messages/new", {listing: listing});
         }
     })
 });
@@ -37,7 +45,7 @@ router.post("/",middleware.isLoggedIn,function(req, res){
                listing.messages.push(message);
                listing.save();
                console.log(message);
-               req.flash('success', 'Created a message!');
+               req.flash('success', 'message sent');
                res.redirect('/listings/' + listing._id);
            }
         });
@@ -51,7 +59,14 @@ router.get("/:messageId/edit", middleware.isLoggedIn, function(req, res){
         if(err){
             console.log(err);
         } else {
-             res.render("messages/edit", {listing_id: req.params.id, message: message});
+            Category.find({}, function(err, allCategories){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render("messages/new", {listing_id: req.params.id, message: message,categories:allCategories});
+                }
+            });
+            //  res.render("messages/edit", {listing_id: req.params.id, message: message});
         }
     })
 });

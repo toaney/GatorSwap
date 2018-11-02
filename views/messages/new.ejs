@@ -1,6 +1,6 @@
 <% include ../partials/header %>
     <div class="row">
-        <h1 style="text-align: center">Add New Message to <%= listing.name %></h1>
+        <h1 style="text-align: center">Send New Message to <%= listing.author.username %> about <%= listing.name %></h1>
         <div style="width: 30%; margin: 25px auto;">
             <form action="/listings/<%= listing._id %>/messages" method="POST">
                 <div class="form-group">

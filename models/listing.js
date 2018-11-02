@@ -10,6 +10,13 @@ var listingSchema = new mongoose.Schema({
    status: String,
    timeCreated: Date,
    adminid: Number,
+   // category:{
+   //    id: {
+   //       type: mongoose.Schema.Types.ObjectId,
+   //       ref: "Category"
+   //    },
+   //    category: String
+   // },
    author: {
       id: {
          type: mongoose.Schema.Types.ObjectId,
