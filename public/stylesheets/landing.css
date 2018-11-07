@@ -1,7 +1,7 @@
     body {
     background: url(https://upload.wikimedia.org/wikipedia/commons/2/2d/SFSU_Campus_JPL_Library_Nov2012.JPG);
     background-size: cover;
-    background-position: center; 
+    background-position: center;
     transition: background 1.5s linear;
     -webkit-backface-visibility: hidden;
     webkit-transition: background-image 1.5s linear;
@@ -31,7 +31,7 @@ h1 {
 
 
 .content{
-	padding-top: 20%;
+	padding: 10%;
 	text-align: center;
 }
 
@@ -45,4 +45,20 @@ hr {
     width: 400px;
     border-top: 1px solid #f8f8f8;
     border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+/*styling for button*/
+.btn{
+  background-color: #fbc02d;
+  color: #4a148c;
+  border:none;
+}
+
+.btn:hover {
+  background-color: #f9a825;
+  color: #12005e;
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,0.24);
+}
+.btn:focus{
+  background-color: #f9a825;
 }

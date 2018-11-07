@@ -1,4 +1,5 @@
 <% include ../partials/header %>
+<div class="container">
     <div class="row">
         <div class="col-md-6">
             <div class="thumbnail">
@@ -11,12 +12,12 @@
                         <em>Submitted By <%= listing.author.username %></em>
                     </p>
                     <% if(currentUser && listing.author.id.equals(currentUser._id)){ %>
-                        <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit Listing</a>
+                        <a class="btn" href="/listings/<%= listing._id %>/edit">Edit Listing</a>
                     <% } %>
                 </div>
             </div>
             <div class="text-right">
-                    <a class="btn btn-success" href="/listings/<%= listing._id %>/messages/new">Add New Message</a>
+                    <a class="btn" href="/listings/<%= listing._id %>/messages/new">Add New Message</a>
             </div>
             <div class="well">
                 <strong>messages</strong>
@@ -32,12 +33,12 @@
                                     <button class="btn btn-xs btn-danger">DELETE</button>
                                     <a href="/listings/<%=listing._id%>/messages/<%=message._id%>/edit" class="btn btn-xs btn-info">EDIT</a>
                                 </form>
-                            <% } %> 
+                            <% } %>
                        </div>
                     </div>
                 <% }) %>
             </div>
         </div>
     </div>
-
+</div>
 <% include ../partials/footer %>

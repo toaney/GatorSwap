@@ -32,41 +32,26 @@ cloudinary.config({
 //INDEX - show all listings with fuzzy search
 router.get("/", function(req, res){
     var noMatch = null;
-    if(req.query.search || req.query.searchcategory) {// non empty search
-        const regex = new RegExp(escapeRegex(req.query.searchcategory), 'gi');
-        const regexcategory = new RegExp(escapeRegex(req.query.searchcategory), 'gi');
-
-        Listing.find({$or:[ {name: regex}, {description: regex}, {category: regex},{category: regexcategory}]}, function(err, allListings){
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        // Get all listings from DB
+        Listing.find({$or:[ {name: regex}, {description: regex}]}, function(err, allListings){
            if(err){
                console.log(err);
            } else {
               if(allListings.length < 1) {
                   noMatch = "No matching result, please try again.";
               }
-              Category.find({}, function(err, allCategories){
-                if(err){
-                    console.log(err);
-                } else {
-                    res.render("listings/index", {listings:allListings, noMatch: noMatch,categories:allCategories}); 
-                }
-              });
-            //   res.render("listings/index",{listings:allListings, noMatch: noMatch});
+              res.render("listings/index",{listings:allListings, noMatch: noMatch});
            }
         });
     } else {
-        // Get all listings from DB if search string empty
+        // Get all listings from DB
         Listing.find({}, function(err, allListings){
            if(err){
                console.log(err);
            } else {
-               Category.find({}, function(err, allCategories){
-                if(err){
-                    console.log(err);
-                } else {
-                    res.render("listings/index", {listings:allListings, noMatch: noMatch,categories:allCategories}); 
-                }
-               });
-            //   res.render("listings/index",{listings:allListings, noMatch: noMatch});
+              res.render("listings/index",{listings:allListings, noMatch: noMatch});
            }
         });
     }
@@ -103,7 +88,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
         if(err){
             console.log(err);
         } else {
-            res.render("listings/new",{categories:allCategories}); 
+            res.render("listings/new",{categories:allCategories});// send categories from db to /new
         }
         
     });
@@ -119,14 +104,7 @@ router.get("/:id", function(req, res){
         } else {
             console.log(foundListing)
             //render show template with that listing
-            Category.find({}, function(err, allCategories){
-                if(err){
-                    console.log(err);
-                } else {
-                    res.render("listings/show", {listing: foundListing,categories:allCategories}); 
-                }
-            });
-            // res.render("listings/show", {listing: foundListing});
+            res.render("listings/show", {listing: foundListing});
         }
     });
 });
@@ -139,14 +117,7 @@ router.get("/:id/edit", middleware.checkUserListing, function(req, res){
             console.log(err);
         } else {
             //render show template with that listing
-            Category.find({}, function(err, allCategories){
-                if(err){
-                    console.log(err);
-                } else {
-                    res.render("listings/edit", {listing: foundListing,categories:allCategories}); 
-                }
-            });
-            // res.render("listings/edit", {listing: foundListing});
+            res.render("listings/edit", {listing: foundListing});
         }
     });
 });

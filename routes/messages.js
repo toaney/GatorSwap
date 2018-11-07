@@ -3,7 +3,6 @@ var router  = express.Router({mergeParams: true});
 var Listing = require("../models/listing");
 var Message = require("../models/message");
 var middleware = require("../middleware");
-var Category = require("../models/category");
 
 //Messages New
 router.get("/new", middleware.isLoggedIn, function(req, res){
@@ -13,14 +12,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
         if(err){
             console.log(err);
         } else {
-            Category.find({}, function(err, allCategories){
-                if(err){
-                    console.log(err);
-                } else {
-                    res.render("messages/new", {listing: listing,categories:allCategories});
-                }
-            });
-            //  res.render("messages/new", {listing: listing});
+             res.render("messages/new", {listing: listing});
         }
     })
 });
@@ -59,14 +51,7 @@ router.get("/:messageId/edit", middleware.isLoggedIn, function(req, res){
         if(err){
             console.log(err);
         } else {
-            Category.find({}, function(err, allCategories){
-                if(err){
-                    console.log(err);
-                } else {
-                    res.render("messages/new", {listing_id: req.params.id, message: message,categories:allCategories});
-                }
-            });
-            //  res.render("messages/edit", {listing_id: req.params.id, message: message});
+             res.render("messages/edit", {listing_id: req.params.id, message: message});
         }
     })
 });

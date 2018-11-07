@@ -2,33 +2,15 @@ var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
-var Listing = require("../models/listing");
-var Category = require("../models/category");
 
 //root route
 router.get("/", function(req, res){
-    Category.find({}, function(err, allCategories){
-        if(err){
-            console.log(err);
-        } else {
-            res.render("landing",{categories:allCategories}); 
-        }
-        
-    });
-    // res.render("landing");
+    res.render("landing");
 });
 
 // show register form
 router.get("/register", function(req, res){
-    Category.find({}, function(err, allCategories){
-        if(err){
-            console.log(err);
-        } else {
-            res.render("register",{categories:allCategories}); 
-        }
-        
-    });
-//   res.render("register"); 
+   res.render("register"); 
 });
 
 //handle sign up logic
@@ -49,15 +31,7 @@ router.post("/register", function(req, res){
 
 //show login form
 router.get("/login", function(req, res){
-   Category.find({}, function(err, allCategories){
-        if(err){
-            console.log(err);
-        } else {
-            res.render("login",{categories:allCategories}); 
-        }
-        
-    });
-//   res.render("login"); 
+   res.render("login"); 
 });
 
 //handling login logic

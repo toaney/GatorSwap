@@ -1,34 +1,60 @@
 <% include ../partials/header %>
+<div class="container">
     <div class="row">
-        <h1 style="text-align: center">Create a New Listing</h1>
-        <div style="width: 30%; margin: 25px auto;">
-            <form action="/listings" method="POST" enctype="multipart/form-data">
+      <div class="col-sm-6">
+        <h1>Create a New Listing</h1>
+      </div>
+      <div class="col-sm-3">
+        <h3></h3>
+        <a href="/listings"style="float: right;">Go Back</a>
+      </div>
+        <!--<div>-->
+          <div class="col-sm-9">
+            <form class="form-horizontal" action="/listings" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
+                  <label class="control-label col-sm-2 " for="name">Listing Name:</label>
+                  <div class="col-sm-6">
                     <input class="form-control" type="text" name="listing[name]" placeholder="name">
+                  </div>
                 </div>
                 <div class="form-group">
-                    <label for="image">Image</label>
-                    <input type="file" id="image" name="image" accept="image/*" required>
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="number" name="listing[price]" placeholder="price">
-                </div>
-                <div class="form-group">
+                  <label class="control-label col-sm-2 " for="category">Listing Category:</label>
+                  <div class="col-sm-6">
                     <select class="form-control" type="text" name="listing[category]" placeholder="category">
                       <option value="">category</option>
                       <% categories.forEach(function(category){ %>
                         <option value=<%= category.category %>><%= category.category %></option>
                       <% }); %>
                     </select>
+                  </div>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" name="listing[description]" placeholder="description">
+                  <label class="control-label col-sm-2 " for="description">Listing Description:</label>
+                  <div class="col-sm-6">
+                    <textarea  class="form-control" type="text" rows="4" name="listing[description]" placeholder="description"></textarea>
+                  </div>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                  <label class="control-label col-sm-2 " for="price">Listing Price:</label>
+                  <div class="col-sm-6">
+                    <input class="form-control" type="number" name="listing[price]" placeholder="price">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-2 " for="image">Listing Image:</label>
+                    <!--<label for="image">Image</label>-->
+                    <div class="col-sm-6">
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-2">
+                    <button class="btn">Submit</button>
+                  </div>
                 </div>
             </form>
-            <a href="/listings">Go Back</a>
-        </div>
+            </div>
+        <!--</div>-->
     </div>
+  </div>
 <% include ../partials/footer %>

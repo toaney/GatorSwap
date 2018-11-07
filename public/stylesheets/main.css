@@ -9,4 +9,172 @@
 .thumbnail .caption-full {
     padding: 9px;
 }
+/*styling for navbar*/
+.navbar{
+    background-color: #12005e;
+}
 
+.nav-search{
+    padding: 10px;
+}
+
+.nav-right {
+  float: right;
+} {
+  float: right;
+}
+/*styling for text*/
+body,a {
+    color: #4a148c;
+}
+
+a:hover{
+  color: #12005e;
+}
+
+/*styling for button*/
+.btn{
+  background-color: #fbc02d;
+  color: #4a148c;
+  border:none;
+}
+
+.btn:hover {
+  background-color: #f9a825;
+  color: #12005e;
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,0.24);
+}
+.btn:focus{
+  background-color: #f9a825;
+}
+
+/*styling for footer*/
+.footer{
+  margin-top:10px;
+  text-align: center;
+  border-top: double;
+}
+/*styling for listings on browse*/
+@supports (display: grid) {
+.listing-browse {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 1rem;
+  }
+}
+
+.listing-browse {
+  //font-family: Avenir, Roboto, Helvetica, san-serif;
+  font-size: 100%;
+}
+article {
+  //margin: 1rem 0;
+}
+
+.listing-item {
+  display: flex;
+  flex-flow: column;
+  border:  1px solid grey;
+  //border-radius: 1rem;
+  padding: 1rem;
+}
+.listing-item > img {
+  order: -1;
+  align-self: center;
+}
+.listing-item > p {
+  margin: 0.25em 1rem 1rem;
+}
+.listing-item > h1 {
+  margin: 1rem 1rem 0;
+}
+.listing-item > button {
+  margin-top: auto;
+  background: teal;
+  color: white;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1.2rem;
+}
+
+.article-img {
+  border:  1px solid grey;
+  height: 200px;
+  width: 100%;
+  object-fit: scale-down;
+}
+
+.zoom:hover {
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.5);
+}
+
+/* styling the registration page*/
+.capbox {
+  background-color: #12005e;//#226eab;
+  border: #12005e 0px solid;
+  display: inline-block;
+  *display: inline; zoom: 1; /* FOR IE7-8 */
+  padding: 8px 8px 8px 8px;
+}
+.capbox-inner {
+  font: bold 11px arial, sans-serif;
+  color: #000000;
+  background-color: #DBF3BA;
+  margin: 5px auto 0px auto;
+  padding: 3px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+#CaptchaDiv {
+  font: bold 17px verdana, arial, sans-serif;
+  font-style: italic;
+  color: ##226eab;
+  background-color: #FFFFFF;
+  padding: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+#CaptchaInput { margin: 1px 0px 1px 0px; width: 135px; }
+#map {
+  height: 100%;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#locationField, #controls {
+  position: relative;
+  width: 480px;
+}
+.label {
+  text-align: right;
+  font-weight: bold;
+  width: 100px;
+  color: #303030;
+}
+#address td {
+  font-size: 10pt;
+}
+.field {
+  width: 99%;
+}
+.slimField {
+  width: 80px;
+}
+.wideField {
+  width: 200px;
+}
+#locationField {
+  height: 20px;
+  margin-bottom: 2px;
+}
+/*#checkbox{
+  margin-left: auto;
+}*/
